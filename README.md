@@ -21,11 +21,35 @@ or add
 
 to the require section of your `composer.json` file.
 
+You need to run
+
+```php
+php yii migrate/up --migrationPath=@vendor/katanyoo/yii2-otp-manager/migrations
+```
 
 Usage
 -----
 
-Once the extension is installed, simply use it in your code by  :
+To use this extension, simply add the following code in your application configuration:
 
 ```php
-<?= \katanyoo\otpmanager\OTPManager::widget(); ?>```
+return [
+    //....
+    'components' => [
+        'otpManager' => [
+            'class' => 'katanyoo\otpmanager\OTPManager',
+            'provider_endpoint' => '<ENDPOINT>',
+            'username' => '<USERNAME>',
+            'password'=> '<PASSWORD>',
+        ]
+    ],
+];
+```
+
+You can then send an sms as follows:
+
+```php
+$result = Yii::$app->otpManager
+     ->setMobileNo('08xxxxxxxx')
+     ->send();
+```
