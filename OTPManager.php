@@ -52,6 +52,7 @@ class OTPManager extends SMSSender
 			$result = parent::send();
 			if ($result['result']) {
 				$result['passcode'] = $log->passcode;
+				$result['refcode'] = $log->refcode;
 			}
 		}
 
