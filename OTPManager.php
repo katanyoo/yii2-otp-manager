@@ -47,10 +47,14 @@ class OTPManager extends SMSSender
 		$log->passcode = $this->generateOtp();
 		$log->telno = $this->mobile_no;
 		$log->expire_time = strtotime('now + 5 minutes');
-		$log->save();
+		if($log->save()) {
+			$this->message = $log->refcode . ':' . $log->passcode . ' คือรหัส OTP ของคุณ';
+			$result = parent::send();
+			if ($result['result']) {
+				$result['passcode'] = $log->passcode;
+			}
+		}
 
-		$this->message = $log->refcode . ':' . $log->passcode . ' คือรหัส OTP ของคุณ';
-
-		$result = parent::send();
+		return $result;
 	}
 }
